@@ -1,0 +1,30 @@
+{
+    "manifest_version": 3,
+
+    "name": "Duolingo Practice Button",
+    "description": "Restore the Duolingo practice button",
+    "version": "1.0",
+    "author": "Cavern Code",
+
+    "icons": {
+        "48": "icon48.png",
+        "128": "icon128.png"
+      },
+      
+    "permissions": [
+        "scripting",
+        "webNavigation"
+    ],
+    "content_scripts":  [
+        {
+            "js": ["script.js"],
+            "matches": ["*://*.duolingo.com/*"]
+        }
+    ],
+    "background": { "service_worker": "background.js" },
+    
+    "web_accessible_resources": [{
+        "resources": ["icon128.png"],
+        "matches": ["<all_urls>"]
+      }]
+}
