@@ -12,7 +12,6 @@
       },
       
     "permissions": [
-        "scripting",
         "webNavigation"
     ],
     "content_scripts":  [
