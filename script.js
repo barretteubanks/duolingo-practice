@@ -1,14 +1,12 @@
 
-// Left TODO
-// Add console log to debug when script fires; whether it fires during lesson too
-
 
 function setButton() {
     console.log("Running practice button script");
 
-    // Skip creating link if already created
+    // Skip creating link if link already created
     var link = document.getElementById("practice-link");
     if (link == null) {
+
         // Create link to practice page
         var link = document.createElement("a");
         link.id = "practice-link";
@@ -23,7 +21,7 @@ function setButton() {
     }
 
 
-    // Anchor button to edge of sidebar
+    // Anchor link to edge of sidebar by offsetting fixed position by sidebar width
     var homeLink = document.querySelector("[data-test='home-nav']");
     if (homeLink != null) {
         var sidebar = homeLink.parentElement.parentElement.parentElement;
