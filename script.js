@@ -1,7 +1,10 @@
 
-
 function setButton() {
-    console.log("Running practice button script");
+    // Exit function if not on skill path
+    var skillPath = document.querySelector("[data-test='skill-path']");
+    if (skillPath == null) {
+        return
+    }
 
     // Skip creating link if link already created
     var link = document.getElementById("practice-link");
@@ -22,41 +25,66 @@ function setButton() {
 
 
     // Anchor link to edge of sidebar by offsetting fixed position by sidebar width
+    var height = 20;
+    var width = 20;
     var homeLink = document.querySelector("[data-test='home-nav']");
     if (homeLink != null) {
         var sidebar = homeLink.parentElement.parentElement.parentElement;
-        var width = sidebar.offsetWidth + 20;
-    } else {
-        var width = 20;
+        // Navbar at bottom of screen
+        if (homeLink.parentElement.parentElement.offsetHeight < 100) {
+            height = homeLink.parentElement.parentElement.offsetHeight + 20;
+        } else {
+            width = sidebar.offsetWidth + 20;
+        }    
     }
-    link.style = `bottom:20px; left: ${width}px; position: fixed; z-index: 9999;`;
+    link.style = `bottom: ${height}px; left: ${width}px; position: fixed; z-index: 9999;`;
 
-    // Add link to screen when on skill path screen
-    var skillPath = document.querySelector("[data-test='skill-path']");
-    if (skillPath != null && addLink) {
+
+    // Add link to screen when created
+    if (addLink) {
         skillPath.appendChild(link);
     }
 
 }
 
+// Set button when changes detected on page
+observer = new MutationObserver(function(mutations) {
+    setTimeout(setButton, 500);
+    // Restart observers in case coming from page that didn't have elements to watch
+    startObservers()
+})
+
+function startObservers() {
+    try {
+        // Detect switch to and from path from most
+        section = document.getElementById("root").childNodes[1].firstChild.childNodes[1]
+        observer.observe(section, {childList: true})
+    } catch { }
+    try {
+        // Detect switch from shop and back to path
+        path = document.querySelector("[data-test='home']").lastChild
+        observer.observe(path, {childList: true})
+    } catch { }
+}
 
 
-// Load button when window loads up
+// Load button and start mutation observers when page loads
 window.addEventListener("load", function() {
     setButton();
+
+    // Detect when title changes (such as when switching languages)
+    observer.observe(document.querySelector("title"), {childList: true})
+    // Detect changes to whole screen (such as starting lesson or practice)
+    observer.observe(document.getElementById("root"), {childList: true})
+
+    // Observe for changes to sections of screen
+    startObservers()
+
 }, false);
+
 
 // Change button position when window resized
 window.addEventListener("resize", function() {
     setButton();
 }, false);
-
-// Reload button after page navigation detected by service worker
-chrome.runtime.onMessage.addListener(function(request) {
-    if (request && request.type === 'page-rendered') {
-      setTimeout(setButton, 500);
-    }
-});
-
-
 
