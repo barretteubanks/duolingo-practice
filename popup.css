@@ -1,0 +1,25 @@
+html {
+    height: 0;
+    width: 200px;
+}
+
+body {
+    padding: 20px;
+    text-align: center;
+}
+
+p {
+    margin: 0;
+}
+
+.stars {
+    color: #FFA500;
+    margin-top: 10px;
+    /* margin-bottom: 5px; */
+    font-size: large;
+}
+
+.btn {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
