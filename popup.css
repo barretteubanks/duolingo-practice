@@ -12,6 +12,16 @@ p {
     margin: 0;
 }
 
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #111;
+    }
+
+    p {
+        color: white;
+    }
+}
+
 .stars {
     color: #FFA500;
     margin-top: 10px;
